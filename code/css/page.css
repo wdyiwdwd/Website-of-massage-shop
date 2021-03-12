@@ -1,0 +1,12 @@
+#page{
+	box-shadow: none;
+	border:none;
+}
+.likebutton{
+	background:rgba(0,0,0,0)!important;
+	color:grey!important;
+	border:none!important;
+}
+.text{
+	font-family:'仿宋'!important;
+}

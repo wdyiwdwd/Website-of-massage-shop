@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<title>用户信息管理系统</title>
+</head>
+<body>
+{include file='topmenu.html'}
+<div class="content">
+<div class="row">
+{include file='leftmenu.html'}
+	<article class="col-md-10">
+		<header class="text-center headline">
+		 	{if $showWhat eq 'clients'}
+		 		客户信息管理列表
+		 	{elseif $showWhat eq 'doctors'}
+		 		医生信息管理列表
+		 	{/if}
+	 	</header>
+		<div class="row text-center" style="margin-top:20px;margin-bottom:15px;">
+			<form 
+			{if $showWhat eq 'clients'}
+			action="index.php?controller=admin&method=showClientsInfo"
+			{elseif $showWhat eq 'doctors'}
+			action="index.php?controller=admin&method=showDoctorsInfo" 
+			{/if}
+			method="post"
+			class="form-inline" role="form"
+			>
+				<div class="form-group col-md-2">
+				<input type="text" name="userid" placeholder="用户ID" class="form-control" style="width:100%">
+				</div>
+				<div class="form-group col-md-2">
+				<input type="text" name="username" placeholder="用户名" class="form-control" style="width:100%">
+				</div>
+				<div class="form-group col-md-2">
+                <input type="text" name="name" placeholder="真实姓名" class="form-control" style="width:100%">
+                </div>
+				<div class="form-group col-md-2">	
+                <input type="text" name="tel" placeholder="联系方式" class="form-control" style="width:100%">
+				</div>
+                <div class="form-group col-md-2">
+                <select name="verified" id="selector" class="form-control" style="width:100%">
+                	<option value="0">全部</option>
+                	<option value="00">未注册</option>                	
+                	<option value="1">已注册</option>
+                </select>
+                <script type="text/javascript">$('#selector').val("{$verified}")</script>
+                </div>
+                <div class="form-group col-md-2 ">
+                <button type="submit" class="btn btn-info" style="width:60%;">查询</button>
+                </div>
+			</form>
+		</div>
+		<div id="usertable" class="usertable">
+			<table class="table table-striped" id="mytable"> 
+				<thead> 
+					<tr>  
+	    				<th>ID</th>
+	    				<th>用户名</th>
+	    				<th>姓名</th>
+	    				<th>联系方式</th>
+	    				{if $showWhat eq 'doctors'}
+					 	<th>角色</th>
+					 	{/if}
+	    				<th>注册</th>
+	    				<th>操作1</th>
+	    				<th>操作2</th>
+					</tr> 
+				</thead>
+				<tbody>
+				{foreach $data as $value}
+					<tr hidden>
+	    				<td>{$value.userid}</td> 
+	    				<td>{$value.username}</td> 
+	    				<td>{$value.name}</td> 
+						<td>{$value.tel}</td>
+						{if $showWhat eq 'doctors'}
+							{if $value.role eq 2}
+					 	<td>医生</td>
+					 		{elseif $value.role eq 3}
+					 	<td>管理员</td>	
+					 		{else}
+					 	<td>未知</td>
+					 		{/if}
+					 	{/if}
+						{if $value.verified eq 0}
+						<td><button  name="registerUser" class="btn btn-primary" onclick="window.location.href='index.php?controller=admin&method=registerUser&userid={$value.userid}&showWhat={$showWhat}'">注册</button></td>
+						{else}
+						<td><label name="registered" class="btn btn-success">已注册</label></td>
+						{/if}
+	    				<td><button  name="delUser" class="btn btn-warning" onclick="confirm('是否要删除此用户？')?window.location.href='index.php?controller=admin&method=delUser&userid={$value.userid}&showWhat={$showWhat}':pass">删除</button>
+	    				</td>
+	    				<td><button name="check" class="btn btn-link"  data-toggle="modal" data-target="#{$value.userid}" >查看</button>
+	    				</td>
+					</tr>
+				{foreachelse}
+					<tr>
+						<td  colspan=4>
+							暂无用户
+						</td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+		</div><!-- end of #table1 -->
+		{include file='page.html'}		
+		</article><!-- end of content manager article -->
+	</div>
+	</div>
+
+	{foreach $data as $value}
+	<!--modal 模态框 -->
+	<div class="modal fade" id="{$value.userid}" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><!--右上角的 X 关闭-->
+	                <h4 class="modal-title" id="myModalLabel">个人信息</h4>
+	            </div>
+	            <div class="modal-body">
+	        <!--in body-->
+					<form id="updateForm" role="form" action="index.php?controller=users&method=updateMyInfo&userid={$value.userid}" method="post" class="form-horizontal" onsubmit="return confirm('确认修改吗？')">
+				<!--<input type="hidden" name="theProjectId" value="{$proList[customer].projectid}" >-->
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="username" class="col-md-3 control-label">用户名:</label>
+								<div class="col-md-9">
+									<input type="text" name="username" class="form-control" value="{$value.username}" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="role" class="col-md-3 control-label">角色:</label>
+								<div class="col-md-9">
+									<input type="text" name="role" class="form-control" value="{if $value.role eq 1}客户{elseif $value.role eq 2}医生{elseif $value.role eq 3}管理员{else} 未知{/if}"  readonly="readonly">
+								</div>
+								<!--label name="role" class="form-control">{if $value.role eq 1}客户{elseif $value.role eq 2}医生{elseif $value.role eq 3}管理员{else} 未知{/if}</label-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="name" class="col-md-3 control-label">姓名:</label>
+								<div class="col-md-9">
+									<input type="text" name="name" class="form-control" value="{$value.name}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="gender" class="col-md-3 control-label">性别:</label>
+								<div class="col-md-9">
+									<select name="gender" class="form-control">
+										{if $value.gender eq 0}
+											<option value="0">女</option>
+											<option value="1">男</option>
+										{else}
+											<option value="0">男</option>
+											<option value="1">女</option>
+										{/if}
+									</select>
+								</div>
+								<!--label name="gender" class="form-control" >{if $value.gender eq 1}男{elseif $value.gender eq 0}女{else}未知{/if}</label-->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="tel" class="col-md-3 control-label">联系方式:</label>
+								<div class="col-md-9">
+									<input type="text" name="tel" class="form-control" value="{$value.tel}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="fax" class="col-md-3 control-label">传真:</label>
+								<div class="col-md-9">
+									<input type="text" name="fax" class="form-control" value="{$value.fax}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="email" class="col-md-3 control-label">email:</label>
+								<div class="col-md-9">
+									<input type="text" name="email" class="form-control" value="{$value.email}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="location" class="col-md-3 control-label">住址:</label>
+								<div class="col-md-9">
+									<input type="text" name="location" class="form-control" value="{$value.location}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="lastTime" class="col-md-3 control-label">上一次登录时间:</label>
+								<div class="col-md-9">
+									<input type="text" name="lasttime" class="form-control" value="{$value.lasttime}" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						{if $value.role eq 2}
+						<div class="form-group">
+							<div class="col-sm-offset-1 col-sm-10">
+								<label for="project" class="col-md-3 control-label">支持项目:</label>
+								<div class="col-md-9"></div>
+								{foreach $value.projects as $project}
+								<div class="col-md-3"></div>
+								<div class="col-md-8">
+									<label name="{$project.projectid}" class="form-control">{$project.projectname}</label>
+								</div>
+								<div class="col-md-1">
+									<button class="glyphicon glyphicon-remove btn-link form-control-feedback" type="button" style="pointer-events: auto" onclick="confirm('确定要放弃此项目吗？')?window.location.href='index.php?controller=doctors&method=delProjectForDoc&doctorid={$value.doctorid}&projectid={$project.projectid}':pass"></button>
+								</div>
+								{foreachelse}
+								<p name="noProject" class="form-control-static">暂无项目</p>
+								{/foreach}
+
+								<label for="project" class="col-md-3 control-label">添加项目:</label>
+								<div class="col-md-8">
+									<input name="doctorid" type="hidden" value="{$value.doctorid}">
+									<select name="projectid" id="proSelect" class="form-control">
+			            			{foreach $allpros as $pro}
+			            				<option value="{$pro.projectid}">{$pro.projectname}</option>
+			            			{/foreach}
+			            			</select>
+								</div>
+								<div class="col-md-1">
+									<button name="addPro" type="button" class="glyphicon glyphicon-ok btn-link form-control-feedback" style="pointer-events: auto" onclick="window.location.href='index.php?controller=doctors&method=addProjectForDoc&doctorid={$value.doctorid}&projectid='+$('#proSelect').val()"></button>
+								</div>
+							</div>
+						</div>
+						{/if}
+	            </div><!--modal body-->
+	            <div class="modal-footer"> 
+	            	<button type="submit" name="update" class="btn btn-warning">确认修改</button>
+	    			</form> 
+	    			<button class="btn btn-success" onclick="confirm('是否要重置密码？')?window.location.href='index.php?controller=users&method=updatePassword&userid={$value.userid}':pass"">重置密码</button>   
+	            	<button class="btn btn-primary" onclick="confirm('是否要删除此用户？')?window.location.href='index.php?controller=admin&method=delUser&userid={$value.userid}&showWhat={$showWhat}':pass"">删除</button>
+			        <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+	            </div>      
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!--modal-->
+	{/foreach}
+
+</body>
+
+</html>

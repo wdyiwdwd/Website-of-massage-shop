@@ -1,0 +1,69 @@
+.panel-group{
+    /*max-height:770px;*/
+    overflow: auto;
+    min-height:480px;
+    height:auto;
+}
+
+.leftmenu{
+    background: #a6a6a6;
+}
+
+.menuborder{
+    border:solid #a6a6a6;
+}
+
+.wholeleftmenu{
+    /*position: fixed;*/
+    width: 115%;
+}
+
+.leftmenu .panel{
+    border:none;
+}
+
+.leftmenu .panel-heading{
+    font-size:14px;
+    padding-left:20px;
+    height:36px;
+    line-height:36px;
+    color:white;
+    position:relative;
+    cursor:pointer;
+    background:#c0c2c0;
+}/*转成手形图标*/
+
+.leftmenu .panel-user{
+    font-size:18px;
+    padding-left:15px;
+    height:42px;
+    line-height:36px; 
+    color:white;
+    position:relative;
+    text-align: left;
+}
+
+.leftmenu .panel-heading span{
+    position:absolute;
+    right:10px;
+    top:12px;
+}
+
+.leftmenu .menu-item-left{
+    padding: 2px; 
+    background: transparent;
+    border:1px solid transparent;
+    border-radius: 6px;
+    color:white;
+}
+
+.leftmenu .menu-item-left:hover{
+    background:#e6e6e6;
+    border:1px solid #ebf2fa;
+}
+
+.leftmenu .list-group-item{
+    background: #a6a6a6;
+}
+
+

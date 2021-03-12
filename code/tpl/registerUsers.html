@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>用户信息管理系统</title>
+</head>
+<body>
+	<header>
+		<h1 class='siteTitle'>用户信息管理系统</h1>
+	</header>
+
+	{*include file='leftmenu.html'*}
+
+	<section id="main" class="column">
+		
+		<article class="wholeTable">
+		<header><h3 class="sectionTitle">用户信息管理列表</h3>
+		</header>
+		<div class="table">
+			<div id="table1" class="table">
+				<table class="tablesorter" cellspacing="0" style="margin:0"> 
+					<thead> 
+						<tr>  
+			    				<th>ID</th>
+			    				<th>用户名</th>
+			    				<th>姓名</th>
+			    				<th>联系方式</th>
+			    				<th>操作</th>
+						</tr> 
+					</thead>
+					<tbody>
+					{foreach $data as $value}
+						<tr>
+			    				<td>{$value.userid}</td> 
+			    				<td>{$value.username}</td> 
+			    				<td>{$value.name}</td> 
+								<td>{$value.tel}</td>
+			    				<td><input type="submit"  name="delUser" value="删除" onclick="window.location.href='index.php?controller=admin&method=delUser&userid={$value.userid}'"><input type="submit"  name="registerUser" value="注册" onclick="window.location.href='index.php?controller=admin&method=registerUser&userid={$value.userid}'"></td>
+						</tr>
+					{foreachelse}
+						<tr>
+							<td  colspan=4>
+								暂无用户
+							</td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+			</div><!-- end of #table1 -->
+			
+			<div id="table2" class="class">
+
+			</div><!-- end of #table2 -->
+			
+		</div><!-- end of .tab_container -->
+		
+		</article><!-- end of content manager article -->
+	</section>
+</body>
+
+</html>

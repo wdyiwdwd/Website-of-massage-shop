@@ -1,0 +1,12 @@
+#mytable th,td{
+	text-align: center;
+}
+#dataInfo{
+	display: none;
+}
+.pagination{
+	font-size: 5px;	
+}
+#page{
+	box-shadow: 0px,0px;
+}

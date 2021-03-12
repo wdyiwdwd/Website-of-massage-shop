@@ -1,0 +1,91 @@
+﻿.content{
+	margin-left:8%;
+	margin-right:8%;
+	background: #f1f1f1;
+}
+
+.headline{
+	font-family:'楷体'; 
+	font-size:30px;
+	color:grey;
+	margin-top: 20px;
+}
+
+body{
+	background: #a6d7ff;
+}
+
+
+.listname{
+	font-size: 16px;
+	color:white!important;
+}
+
+.headname{
+	font-size: 25px;
+	color:white!important;
+	font-family:'仿宋', Helvetica, Arial, sans-serif;
+}
+
+.navbar{
+	background: #81b2ff;
+	border:none;
+}
+
+.content th,td{
+	text-align:center;
+}
+
+.content .btn-success{
+	background-color:#a6a6a6;
+	border-color: #a6a6a6;	
+}
+
+.content .col-md-10 .panel-heading{
+	border-radius: 0px;
+	/*background-color: #a6d7ff;
+	border-color: #a6d7ff;*/
+	color: grey;
+}
+.content .col-md-10 .panel{
+	border: none;
+	border-radius: 0px;
+	margin-top: 15px;
+	margin-right:7px;
+	box-shadow: none!important;
+}
+/*
+.content .btn-primary{
+	background-color:#81b2ff;
+	border-color: #81b2ff;
+}
+
+.content .btn-info{
+	background-color:#a6d7ff;
+	border-color: #a6d7ff;
+}
+
+.content .btn-primary.hover,
+.content .btn-primary:hover{
+	background-color:#5989d4;
+	border-color: #46b8da;
+}
+
+.content .btn-info.hover,
+.content .btn-info:hover{
+	background-color:#31b0d5;
+	border-color: #269abc;
+}
+*/
+/*.
+.content .btn-danger{
+	background-color:#a6a6a6!important;
+	border-color: #a6a6a6!important;	
+}
+
+.content .btn-warning{
+	background-color:#c0c2c0!important;
+	border-color: #c0c2c0!important;
+}	
+
+*/
